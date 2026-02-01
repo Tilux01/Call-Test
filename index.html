@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebRTC Voice Call</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .user-section, .call-section, .call-controls {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        input, select, button {
+            margin: 5px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        .call-btn {
+            background-color: #2196F3;
+        }
+        
+        .end-btn {
+            background-color: #f44336;
+        }
+        
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            background-color: #e0e0e0;
+        }
+        
+        .incoming-call {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .user-list {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+        
+        .user-item {
+            padding: 8px;
+            margin: 5px 0;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>WebRTC Voice Call</h1>
+        
+        <!-- User Registration -->
+        <div class="user-section">
+            <h2>User Registration</h2>
+            <input type="text" id="username" placeholder="Enter your username">
+            <button onclick="registerUser()">Register</button>
+            <div id="userStatus" class="status"></div>
+        </div>
+        
+        <!-- Online Users -->
+        <div class="user-section" id="usersSection" style="display: none;">
+            <h2>Online Users</h2>
+            <button onclick="refreshUsers()">Refresh Users</button>
+            <div id="userList" class="user-list"></div>
+        </div>
+        
+        <!-- Call Section -->
+        <div class="call-section" id="callSection" style="display: none;">
+            <h2>Make a Call</h2>
+            <select id="userSelect"></select>
+            <button class="call-btn" onclick="startCall()">Call</button>
+            
+            <!-- Incoming Call -->
+            <div id="incomingCall" class="status" style="display: none;">
+                <h3>Incoming Call from: <span id="callerName"></span></h3>
+                <button onclick="acceptCall()">Accept</button>
+                <button onclick="rejectCall()">Reject</button>
+            </div>
+            
+            <!-- Call Controls -->
+            <div class="call-controls" id="callControls" style="display: none;">
+                <h3>Call in Progress</h3>
+                <p>Connected with: <span id="connectedUser"></span></p>
+                <audio id="localAudio" muted autoplay></audio>
+                <audio id="remoteAudio" autoplay></audio>
+                <button class="end-btn" onclick="endCall()">End Call</button>
+                <div id="callStatus" class="status"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Socket.io & WebRTC Script -->
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
