@@ -30,7 +30,7 @@ let iceServers = {
 // Initialize
 function init() {
     // Connect to signaling server
-    socket = io('http://localhost:3000');
+    socket = io("https://call-test-backend.onrender.com");
     
     // Socket event listeners
     socket.on('connect', () => {
